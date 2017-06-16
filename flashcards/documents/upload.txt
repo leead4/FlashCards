@@ -1,0 +1,8 @@
+------WebKitFormBoundaryxUBNK4m4lscAKan3
+Content-Disposition: form-data; name="file"; filename="text.txt"
+Content-Type: text/plain
+
+Im a text file yay
+
+
+------WebKitFormBoundaryxUBNK4m4lscAKan3--
