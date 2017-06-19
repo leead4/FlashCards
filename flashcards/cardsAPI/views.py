@@ -11,7 +11,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions
 from rest_framework.response import Response
-from cardsAPI.serializers import UserSerializer, DocumentSerializer
+from cardsAPI.serializers import UserSerializer, DocumentSerializer, CardSerializer, DeckSerializer
 from cardsAPI.models import *
 
 
@@ -29,7 +29,13 @@ class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
+class CardViewSet(viewsets.ModelViewSet):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
 
+class DeckViewSet(viewsets.ModelViewSet):
+    queryset = Deck.objects.all()
+    serializer_class = DeckSerializer
 
 class FileUploadView(views.APIView):
     parser_classes = (FileUploadParser,)
