@@ -7,7 +7,7 @@ class Deck(models.Model):
 class Card(models.Model):
 	front = models.CharField(max_length=400, blank=True)
 	back = models.CharField(max_length=400, blank=True)
-	deck = models.ForeignKey(Deck)
+	deck = models.ForeignKey(Deck, null=True)
 
 class Document(models.Model):
 	description = models.CharField(max_length=255, blank=True)

@@ -14,11 +14,15 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
 		fields = ('description', 'document', 'uploaded_at')
 
 class CardSerializer(serializers.HyperlinkedModelSerializer):
+	deck = serializers.CharField(source="deck.name")
+	id = serializers.IntegerField(read_only = True)
 	class Meta:
 		model = Card
-		fields = ('front', 'back')
+		fields = ('id', 'front', 'back', 'deck')
 
 class DeckSerializer(serializers.HyperlinkedModelSerializer):
+	id = serializers.IntegerField(read_only = True)
 	class Meta:
+
 		model = Deck
-		fields = (['name'])
+		fields = ['name', 'id']

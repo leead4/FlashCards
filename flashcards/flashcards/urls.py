@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 from cardsAPI import views
-from cardsAPI.views import FileUploadView
+from cardsAPI.views import FileUploadView, CreateCardViewSet, GetCardsByDeckViewSet, DeleteCardByIdViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -15,8 +15,11 @@ router.register(r'cards', views.CardViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^upload/', FileUploadView.as_view())
-    
+    url(r'^upload/', FileUploadView.as_view()),
+    url(r'^createcard/', CreateCardViewSet.as_view()),
+    url(r'^getcardsindeck/(?P<deck_id>[0-9]+)/$', GetCardsByDeckViewSet.as_view()),
+    url(r'^deletethiscard/(?P<card_id>[0-9]+)/$', DeleteCardByIdViewSet.as_view()),
+    url(r'^editthiscard/(?P<card_id>[0-9]+)/$', DeleteCardByIdViewSet.as_view())
 
 ]
 
