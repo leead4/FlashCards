@@ -13,8 +13,8 @@ from rest_framework import authentication, permissions
 from rest_framework.response import Response
 from cardsAPI.serializers import UserSerializer, DocumentSerializer, CardSerializer, DeckSerializer
 from cardsAPI.models import *
-from django.views.decorators.csrf import csrf_exempt
-
+# from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -39,34 +39,20 @@ class DeckViewSet(viewsets.ModelViewSet):
     serializer_class = DeckSerializer
 
 
-class DeleteCardViewSet(views.APIView):
-    def delete(self, request, format=None):
-            req_body = json.loads(request.body.decode())
-            print("\n\n{}".format(req_body['card']))
+
+class DeleteDeckByIdViewSet(views.APIView):
+    def delete(self, request, deck_id, format=None):
+            
 
             data = "you did it"
-            card_delete = Card.objects.get(pk=req_body['card'])
+            deck_delete = Deck.objects.get(pk = deck_id)
 
             try:
-                card_delete.delete()
+                deck_delete.delete()
                 return Response(data, content_type='application/json')
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-    @csrf_exempt
-    def patch(self, request, format=None):
-            req_body = json.loads(request.body.decode())
-            print("\n\n{}".format(req_body['card']))
-
-            data = "you did it"
-            card_edit = Card.objects.get(pk=req_body['card'])
-            card_edit.front = req_body['card_front']
-            card_edit.back = req_body['card_back']
-
-            try:
-                card_edit.patch()
-                return Response(data, content_type='application/json')
-            except:
-                return Response(status=status.HTTP_400_BAD_REQUEST) 
+    
 
 
 class GetCardsByDeckViewSet(views.APIView):
@@ -118,6 +104,27 @@ class CreateCardViewSet(views.APIView):
             try:
                 new_card.save()
                 return Response(data)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)   
+
+class CreateDeckViewSet(views.APIView):
+    def post(self, request, format=None):
+            
+            req_body = json.loads(request.body.decode())
+            # print("\n\n{}".format(req_body['deck']))
+            
+
+            new_deck = Deck.objects.create(
+                name = req_body['name']
+                
+            )
+            data = "you did it"
+            # token = Token.objects.get(user=request.user)
+            # data = json.dumps(request, indent=2)
+
+            try:
+                new_deck.save()
+                return Response(data, status=status.HTTP_204_NO_CONTENT)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)   
 
